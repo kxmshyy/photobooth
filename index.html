@@ -87,11 +87,35 @@
             color: white;
             transform: scale(1.05);
         }
+        #themeSelector {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            font-size: 14px;
+            border: 2px solid #957DAD;
+            border-radius: 50px;
+            background-color: #F4DBE9;
+            color: black;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div id="container">
         <h1>Photo Booth Strip</h1>
+        <label for="themeSelector">Choose a Theme:</label>
+        <select id="themeSelector">
+            <option value="#FFFFFF">White</option>
+            <option value="#000000">Black</option>
+            <option value="#AC9D8E">Brown</option>
+            <option value="#D1C3B7">Light Brown</option>
+            <option value="#D2C8D9">Purple</option>
+            <option value="#EEDBE6">Pink</option>
+            <option value="#F1EBF9">Light Purple</option>
+            <option value="#C3CFDE">Blue</option>
+            <option value="#EAF6FB">Light Blue</option>
+            <option value="#DFE6F2">Blue Purple</option>
+        </select>
+        <br>
         <video id="video" width="320" height="240" autoplay></video>
         <br>
         <button id="capture">Take Photo</button>
@@ -116,16 +140,23 @@
         const clearButton = document.getElementById('clear');
         const downloadButton = document.getElementById('downloadButton');
         const photoPreview = document.getElementById('photoPreview');
+        const themeSelector = document.getElementById('themeSelector');
         const context = canvas.getContext('2d');
         const stripContext = stripCanvas.getContext('2d');
 
         let photos = [];
         let selectedPhotos = [];
+        let themeColor = themeSelector.value;
 
         // Access webcam
         navigator.mediaDevices.getUserMedia({ video: true })
             .then(stream => video.srcObject = stream)
             .catch(err => console.error("Error accessing webcam:", err));
+
+        // Update strip background color when theme is selected
+        themeSelector.addEventListener('change', () => {
+            themeColor = themeSelector.value;
+        });
 
         // Capture photo
         captureButton.addEventListener('click', () => {
@@ -159,10 +190,10 @@
             displayPhotos();
         }
 
-        // Generate photo strip
+        // Generate photo strip with selected theme
         generateButton.addEventListener('click', () => {
             if (!selectedPhotos.length) return alert('Select photos first!');
-            stripContext.fillStyle = "#FFFFFF";
+            stripContext.fillStyle = themeColor;
             stripContext.fillRect(0, 0, stripCanvas.width, stripCanvas.height);
             selectedPhotos.forEach((index, pos) => {
                 const img = new Image();
