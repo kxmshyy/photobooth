@@ -16,7 +16,7 @@
             padding: 20px;
         }
         #container {
-            margin: 20px auto;
+            margin-top: -20px;
             width: 50%;
         }
         video {
@@ -46,17 +46,19 @@
             transition: 0.3s;
         }
         .photo-preview img.selected {
-            border: 2px solid blue;
+            border: 2px solid #6a4e86;
         }
         button {
             margin-top: 10px;
             padding: 10px 20px;
-            font-size: 14px;
+            font-size: 10px;
             cursor: pointer;
             border-radius: 50px;
             background-color: #F4DBE9;
             border: 2px solid #957DAD;
             transition: 0.3s;
+            font-family: arial black;
+            color: #6a4e86;
         }
         button:hover {
             background-color: #957DAD;
@@ -73,10 +75,10 @@
         #downloadButton {
             display: none;
             padding: 5px 25px;
-            font-size: 18px;
+            font-size: 14px;
             cursor: pointer;
             background-color: #F4DBE9;
-            color: black;
+            color: #6a4e86;
             border: 1px solid #FFF0F1;
             border-radius: 50px;
             margin-top: 7px;
@@ -89,19 +91,70 @@
         }
         #themeSelector {
             margin-bottom: 10px;
-            padding: 8px 12px;
-            font-size: 14px;
+            padding: 5px 10px;
+            font-size: 11px;
             border: 2px solid #957DAD;
             border-radius: 50px;
             background-color: #F4DBE9;
-            color: black;
+            
             cursor: pointer;
+            color: #6a4e86;
+            font-family: arial black;
         }
+        
+
+        p {
+            position: fixed; 
+            bottom: 10px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            font-size: 13px; 
+            font-weight: bold; 
+            color: #957DAD; 
+            background: rgba(244, 219, 233, 0.8); 
+            padding: 5px 15px; 
+            border-radius: 20px; 
+            border: 1px solid #957DAD;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            font-family: arial black;
+        }
+
+        label {
+            font-family: arial black;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        h1 {
+            font-family: "Brush Script MT", cursive;
+            font-size: 45px;
+            color: #6a4e86;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                flex-direction: column;
+                align-items: center;
+            }
+            #container, .strip-container {
+                width: 100%;
+                max-width: 100%;
+            }
+            .photo-preview img {
+                width: 60px;
+                height: 45px;
+            }
+            button {
+                font-size: 10px;
+                padding: 8px 12px;
+            }
+        }
+
     </style>
 </head>
 <body>
     <div id="container">
-        <h1>Photo Booth Strip</h1>
+        <h1>Photo Booth</h1>
         <label for="themeSelector">Choose a Theme:</label>
         <select id="themeSelector">
             <option value="#FFFFFF">White</option>
@@ -124,6 +177,10 @@
         <br>
         <div class="photo-preview" id="photoPreview"></div>
         <canvas id="canvas" width="320" height="240"></canvas>
+        <p>
+            Made by Kim 💜
+        </p>
+
     </div>
 
     <div class="strip-container">
@@ -162,7 +219,7 @@
         captureButton.addEventListener('click', () => {
             if (photos.length >= 5) return alert('You can only capture up to 5 photos!');
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            photos.push(canvas.toDataURL('image/png'));
+            photos.push(canvas.toDataURL('image/jpeg', 1.0)); // High-quality JPEG format
             displayPhotos();
         });
 
